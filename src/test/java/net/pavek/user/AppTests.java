@@ -1,4 +1,4 @@
-package com.springapp.mvc;
+package net.pavek.user;
 
 import org.junit.Before;
 import org.junit.Test;
