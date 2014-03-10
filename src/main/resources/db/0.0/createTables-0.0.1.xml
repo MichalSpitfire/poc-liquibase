@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+    <changeSet id="1" author="mpavek">
+
+        <createTable tableName="ORGANIZATION">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)" >
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="registerDate" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nonProfit" type="boolean" valueBoolean="true" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="USER">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(250)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(100)" >
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="organization" type="bigint">
+                <constraints foreignKeyName="USER_ORG" nullable="false" references="ORGANIZATION(ID)" deleteCascade="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="USER"/>
+            <dropTable tableName="ORGANIZATION"/>
+        </rollback>
+
+    </changeSet>
+
+
+    <changeSet id="2" author="mpavek">
+
+        <sql>
+            create table ROLE (
+                ID bigint not null primary key,
+                NAME varchar(20) not null
+            );
+        </sql>
+
+        <rollback>
+            drop table ROLE;
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>
